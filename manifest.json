@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+
+    "name": "FIT course sorter",
+    "description": "Adds a sort and filter option to course registration at FIT studis",
+    "version": "1.0.0",
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "xoujez04@vutbr.cz"
+        }
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["*://www.vut.cz/studis/student.phtml?sn=individualni_plan_fit"],
+            "js": ["addCourseFilter.js"]
+        }
+    ]
+}
