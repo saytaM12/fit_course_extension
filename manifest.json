@@ -13,7 +13,7 @@
 
     "content_scripts": [
         {
-            "matches": ["*://www.vut.cz/studis/student.phtml?sn=individualni_plan_fit"],
+            "matches": ["*://www.vut.cz/studis/student.phtml*sn=individualni_plan_fit"],
             "js": ["addCourseFilter.js"]
         }
     ]
