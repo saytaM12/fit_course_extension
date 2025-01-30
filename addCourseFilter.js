@@ -247,7 +247,10 @@ function hideFull() {
   const trs = document.getElementsByTagName("TR");
 
   for (const tr of trs) {
-    if (tr.innerHTML.includes("Předmět má naplněnou kapacitu")) {
+    if (
+      tr.innerHTML.includes("Předmět má naplněnou kapacitu") ||
+      tr.innerHTML.includes("The course capacity is full")
+    ) {
       if (fullHidden) {
         if (!tr.classList.contains("filtered")) {
           tr.hidden = false;
