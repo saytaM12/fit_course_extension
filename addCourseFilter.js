@@ -144,49 +144,52 @@ function splitTables(origoTable) {
 
 // Sort a table `tableID` based on column `column` with that column's header `th`
 function sortTable(th, tableID, column) {
-  // Get sort order
-  let order = "asc";
-  if (th.classList.contains("orderAsc")) {
-    th.classList.replace("orderAsc", "orderDesc");
-    order = "desc";
-  } else if (th.classList.contains("orderDesc")) {
-    th.classList.replace("orderDesc", "orderAsc");
-  } else {
-    th.className += " orderAsc";
-  }
-
-  const rows = document.getElementById(tableID).getElementsByTagName("TR");
-
-  let switching = true;
-  while (switching) {
-    switching = false;
-
-    let courses = false;
-    for (let i = 0; i < rows.length - 1; i++) {
-      if (courses == false) {
-        if (rows[i].contains(th)) {
-          courses = true;
-        }
-        continue;
-      }
-
-      if (
-        order == "asc" &&
-        rows[i].getElementsByTagName("TD")[column].innerText >
-          rows[i + 1].getElementsByTagName("TD")[column].innerText
-      ) {
-        rows[i].before(rows[i + 1]);
-        switching = true;
-      } else if (
-        order == "desc" &&
-        rows[i].getElementsByTagName("TD")[column].innerText <
-          rows[i + 1].getElementsByTagName("TD")[column].innerText
-      ) {
-        rows[i + 1].after(rows[i]);
-        switching = true;
-      }
+    // Get sort order
+    let order = 1;
+    if (th.classList.contains("orderAsc")) {
+        th.classList.replace("orderAsc", "orderDesc");
+        order = -1;
+    } else if (th.classList.contains("orderDesc")) {
+        th.classList.replace("orderDesc", "orderAsc");
+    } else {
+        th.className += " orderAsc";
     }
-  }
+
+    let rows = document.getElementById(tableID).getElementsByTagName("TR")
+    // rows as an Array
+    let rowsArray = [].slice.call(rows);
+    // remove headers
+    rowsArray = rowsArray.slice(2);
+
+    // sort Array
+    rowsArray.sort((a, b) => {
+        let atd = a.getElementsByTagName("TD")[column].innerText
+        let btd = b.getElementsByTagName("TD")[column].innerText
+        console.log(atd, btd, "\n", atd > btd, "\n\n");
+
+        if (atd > btd) {
+            return order;
+        } else {
+            return -order;
+        }
+    });
+
+    // sort HTMLCollection based on sorted Array
+    let currIndex = 2;
+    for (let i = 2; i < rows.length; i++) {
+        let currRow = rows[currIndex];
+        let targetIndex = rowsArray.findIndex(x => { return x.id == currRow.id; }) + 2;
+
+        if (targetIndex == currIndex) {
+            currIndex++;
+            continue;
+        }
+
+        // swap the two rows
+        currRow.after(rows[targetIndex]);
+        rows[targetIndex].after(currRow);
+
+    }
 }
 
 // Wrap table headers in <a> tags with function to sort based on that column
