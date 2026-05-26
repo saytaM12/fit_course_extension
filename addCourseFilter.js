@@ -72,7 +72,7 @@ let staticTableID = 0;
 // 1. march - 30. september => show winter
 const thisMonth = (new Date()).getMonth();
 let showWinter = false;
-if (!(thisMonth > 2 && thisMonth < 9)) {
+if (thisMonth > 2 && thisMonth < 9) {
     showWinter = true;
 }
 
