@@ -72,7 +72,7 @@ let staticTableID = 0;
 // 1. march - 30. september => show winter
 const thisMonth = (new Date()).getMonth();
 let showWinter = false;
-if (thisMonth > 2 && thisMonth < 9) {
+if (!(thisMonth > 2 && thisMonth < 9)) {
     showWinter = true;
 }
 
@@ -194,10 +194,8 @@ function sortTable(th, tableID, column) {
     });
 
     // sort HTMLCollection based on sorted Array
-    let i = 0;
     let currIndex = 2;
     while (true) {
-        i++;
         if (currIndex >= rows.length) {
             break;
         }
@@ -215,7 +213,6 @@ function sortTable(th, tableID, column) {
         rows[targetIndex].after(currRow);
 
     }
-    console.log(i);
 }
 
 // Wrap table headers in <a> tags with function to sort based on that column
@@ -323,7 +320,7 @@ function createSwitchAndFilter() {
 
     button.id = "semesterSwitchButton";
     button.className = "btn btn-secondary";
-    button.innerText = "Switch to summer semester";
+    button.innerText = showWinter ? "Switch to summer semester" : "Switch to winter semester";
     button.type = "button";
     button.onclick = switchSemesters;
 
@@ -366,11 +363,7 @@ const origoTable = document.getElementsByClassName("table")[0];
 // Title with the current semester (Summer/Winter)
 const semesterSwitch = document.createElement("H1");
 semesterSwitch.id = "semesterSwitch";
-if (showWinter) {
-    semesterSwitch.innerText = "Winter semester";
-} else {
-    semesterSwitch.innerText = "Summer semester";
-}
+semesterSwitch.innerText = showWinter ? "Winter semester" : "Summer semester";
 origoTable.before(semesterSwitch);
 
 semesterSwitch.after(createSwitchAndFilter());
